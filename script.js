@@ -46,13 +46,55 @@ const quize = [
   },
 ];
 
+const startBtn = document.querySelector(".js-start-btn");
 
-const startBtn = document.querySelector('.js-start-btn');
+startBtn.addEventListener("click", () => {
+  document.querySelector(".js-quize-screen").classList.remove("screen-off");
+  document.querySelector(".front-screen").classList.add("screen-off");
+  document.querySelector("body").classList.add("quize-screen-body");
+});
 
-startBtn.addEventListener('click',()=>{
-  document.querySelector('.js-quize-screen').classList.remove('screen-off');
-  document.querySelector('.front-screen').classList.add('screen-off');
-  document.querySelector('body').classList.add('quize-screen-body');
 
-})
+
+renderQuize(0);
+
+function renderQuize(index) {
+  const fullQuiz = quize[0];
+  const { quizeNo } = fullQuiz;
+  const { question } = fullQuiz;
+  const { rightAnswer } = fullQuiz;
+  const { answers } = fullQuiz;
+
+  const quizHtml = `
+  <div class="num-of-quest">
+                Question - ${quizeNo}
+            </div>
+            <div class="question">
+                ${question}
+            </div>
+            <div class="answers">
+              <button class="answer-btn js-answer-btn" data-answer=${0} >${answers[0]}</button>
+              <button class="answer-btn js-answer-btn" data-answer=${1}>${answers[1]}</button>
+              <button class="answer-btn js-answer-btn" data-answer=${2}>${answers[2]}</button>
+              <button class="answer-btn js-answer-btn" data-answer=${3}>${answers[3]}</button>
+            </div>
+  `;
+  document.querySelector(".js-main").innerHTML = quizHtml;
+  testQuiz(rightAnswer)
+}
+
+function testQuiz(righAnswer) {
+  document.querySelectorAll('.js-answer-btn').forEach((btn)=>{
+    btn.addEventListener('click',(event)=>{
+      const answer = Number(btn.dataset.answer);
+      if(answer === righAnswer){
+        btn.classList.add('correct-answer');
+      }
+      else{
+        btn.classList.add('wrong-answer');
+      }
+      btn.disabled = true;
+    })
+  })
+}
 

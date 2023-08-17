@@ -9,7 +9,7 @@
 }
 
 body {
-  background-color: #c31432;
+  background-color: #131583;
   padding-top: 70px;
   position: relative;
   min-height: 100vh;
@@ -89,25 +89,35 @@ main {
   width: 100%;
 }
 
-.radio-btn {
-  display: none;
-}
 
-label {
+.answer-btn{
   background-color: white;
   width: 100%;
   font-size: 25px;
   text-align: center;
   padding: 10px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: all 250ms;
 }
 
-label:hover {
+.answer-btn:hover {
   background-color: #d3e0ff;
   box-shadow: 0px 0px 10px black;
 }
+
+.correct-answer{
+  background-color: rgb(78, 185, 101);
+  color: white;
+
+}
+
+.wrong-answer{
+  background-color: rgb(253, 61, 61);
+  color: white;
+}
+
 
 /* fron-screen-styles */
 
