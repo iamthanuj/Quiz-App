@@ -47,4 +47,12 @@ const quize = [
 ];
 
 
+const startBtn = document.querySelector('.js-start-btn');
+
+startBtn.addEventListener('click',()=>{
+  document.querySelector('.js-quize-screen').classList.remove('screen-off');
+  document.querySelector('.front-screen').classList.add('screen-off');
+  document.querySelector('body').classList.add('quize-screen-body');
+
+})
 
