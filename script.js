@@ -47,6 +47,10 @@ const quize = [
 ];
 
 const startBtn = document.querySelector(".js-start-btn");
+let quizIndex = 0;
+let quizMarks = 0;
+
+
 
 startBtn.addEventListener("click", () => {
   document.querySelector(".js-quize-screen").classList.remove("screen-off");
@@ -56,31 +60,49 @@ startBtn.addEventListener("click", () => {
 
 
 
-renderQuize(0);
+
+
+renderQuize(quizIndex);
+
+
+document.querySelector('.js-next-btn').addEventListener('click',()=>{
+  if(quizIndex === 4){
+    document.querySelector('.js-next-btn').innerHTML = 'Finished'
+    renderQuize(5)
+  }
+  renderQuize(quizIndex);
+})
+
 
 function renderQuize(index) {
-  const fullQuiz = quize[0];
-  const { quizeNo } = fullQuiz;
-  const { question } = fullQuiz;
-  const { rightAnswer } = fullQuiz;
-  const { answers } = fullQuiz;
 
-  const quizHtml = `
-  <div class="num-of-quest">
-                Question - ${quizeNo}
-            </div>
-            <div class="question">
-                ${question}
-            </div>
-            <div class="answers">
-              <button class="answer-btn js-answer-btn" data-answer=${0} >${answers[0]}</button>
-              <button class="answer-btn js-answer-btn" data-answer=${1}>${answers[1]}</button>
-              <button class="answer-btn js-answer-btn" data-answer=${2}>${answers[2]}</button>
-              <button class="answer-btn js-answer-btn" data-answer=${3}>${answers[3]}</button>
-            </div>
-  `;
-  document.querySelector(".js-main").innerHTML = quizHtml;
-  testQuiz(rightAnswer)
+  if(index === 5){
+    document.querySelector(".js-main").innerHTML = `${calculateMarks()}%`
+  }
+  else{
+    const fullQuiz = quize[index];
+    const { quizeNo } = fullQuiz;
+    const { question } = fullQuiz;
+    const { rightAnswer } = fullQuiz;
+    const { answers } = fullQuiz;
+  
+    const quizHtml = `
+    <div class="num-of-quest">
+                  Question - ${quizeNo}
+              </div>
+              <div class="question">
+                  ${question}
+              </div>
+              <div class="answers">
+                <button class="answer-btn js-answer-btn" data-answer=${0} >${answers[0]}</button>
+                <button class="answer-btn js-answer-btn" data-answer=${1}>${answers[1]}</button>
+                <button class="answer-btn js-answer-btn" data-answer=${2}>${answers[2]}</button>
+                <button class="answer-btn js-answer-btn" data-answer=${3}>${answers[3]}</button>
+              </div>
+    `;
+    document.querySelector(".js-main").innerHTML = quizHtml;
+    testQuiz(rightAnswer);
+  }
 }
 
 function testQuiz(righAnswer) {
@@ -89,12 +111,34 @@ function testQuiz(righAnswer) {
       const answer = Number(btn.dataset.answer);
       if(answer === righAnswer){
         btn.classList.add('correct-answer');
+        quizIndex += 1;
+        quizMarks += 1;
+        btnDisable()
       }
       else{
         btn.classList.add('wrong-answer');
+        document.querySelectorAll('.js-answer-btn').forEach((correctBtn)=>{
+          if(correctBtn.dataset.answer == righAnswer){
+            correctBtn.classList.add('correct-answer');
+          }
+        })
+        quizIndex += 1;
+        btnDisable()
       }
-      btn.disabled = true;
+      
     })
   })
 }
 
+
+
+function btnDisable(){
+  document.querySelectorAll('.js-answer-btn').forEach((btn)=>{
+    btn.disabled = true;
+  })
+}
+
+function calculateMarks(){
+  const marksPreceentage = (quizMarks/5)*100;
+  return marksPreceentage;
+}
