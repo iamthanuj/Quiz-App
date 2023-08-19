@@ -63,21 +63,38 @@ startBtn.addEventListener("click", () => {
 
 
 renderQuize(quizIndex);
+taskUpdate();
 
 
 document.querySelector('.js-next-btn').addEventListener('click',()=>{
-  if(quizIndex === 4){
+  if(quizIndex === 5){
     document.querySelector('.js-next-btn').innerHTML = 'Finished'
     renderQuize(5)
   }
+  taskUpdate();
   renderQuize(quizIndex);
 })
+
+
+
+document.querySelector('.js-restart-btn').addEventListener('click',()=>{
+  quizIndex = 0;
+  quizMarks = 0;
+  document.querySelector('.js-finish-screen').classList.add('screen-off');
+  document.querySelector("body").classList.remove("quize-screen-body");
+  document.querySelector(".front-screen").classList.remove("screen-off");
+  renderQuize(quizIndex);
+})
+
+
 
 
 function renderQuize(index) {
 
   if(index === 5){
-    document.querySelector(".js-main").innerHTML = `${calculateMarks()}%`
+    document.querySelector('.js-quize-screen').classList.add('screen-off');
+    document.querySelector(".js-score").innerHTML = `${calculateMarks()}%`;
+    document.querySelector('.js-finish-screen').classList.remove('screen-off');
   }
   else{
     const fullQuiz = quize[index];
@@ -94,10 +111,10 @@ function renderQuize(index) {
                   ${question}
               </div>
               <div class="answers">
-                <button class="answer-btn js-answer-btn" data-answer=${0} >${answers[0]}</button>
-                <button class="answer-btn js-answer-btn" data-answer=${1}>${answers[1]}</button>
-                <button class="answer-btn js-answer-btn" data-answer=${2}>${answers[2]}</button>
-                <button class="answer-btn js-answer-btn" data-answer=${3}>${answers[3]}</button>
+                <button class="answer-btn js-answer-btn btn-active" data-answer=${0} >${answers[0]}</button>
+                <button class="answer-btn js-answer-btn btn-active" data-answer=${1}>${answers[1]}</button>
+                <button class="answer-btn js-answer-btn btn-active" data-answer=${2}>${answers[2]}</button>
+                <button class="answer-btn js-answer-btn btn-active" data-answer=${3}>${answers[3]}</button>
               </div>
     `;
     document.querySelector(".js-main").innerHTML = quizHtml;
@@ -141,4 +158,9 @@ function btnDisable(){
 function calculateMarks(){
   const marksPreceentage = (quizMarks/5)*100;
   return marksPreceentage;
+}
+
+
+function taskUpdate(){
+  document.querySelector('.js-task').innerHTML = `${quizIndex+1}/5`;
 }
